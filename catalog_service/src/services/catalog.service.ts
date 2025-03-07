@@ -19,9 +19,14 @@ export class CatalogService {
   }
 
   // In Future instead of this we will get the data from elastic search
-  async getProduct(limit: number, offset: number) {
+  async getProduct(id: number) {
+    const product = await this._repository.findOne(id);
+    return product;
+  }
+
+  // In Future instead of this we will get the data from elastic search
+  async getProducts(limit: number, offset: number) {
     const products = await this._repository.find(limit, offset);
     return products;
   }
-  getProducts(id: number) {}
 }

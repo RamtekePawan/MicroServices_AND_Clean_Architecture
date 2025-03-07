@@ -104,19 +104,46 @@ describe("catalogService", () => {
     });
   });
 
-  describe("getProduct", () => {
+  describe("getProducts", () => {
     test("should get product by offset and limit", async () => {
       const service = new CatalogService(repository);
       const randomLimit = faker.number.int({ min: 1, max: 10 });
       const products = productFactory.buildList(randomLimit);
-      
+
       jest
         .spyOn(repository, "find")
         .mockImplementation(() => Promise.resolve(products));
 
-      const result = await service.getProduct(randomLimit, 0);
+      const result = await service.getProducts(randomLimit, 0);
       expect(result).toHaveLength(randomLimit);
-      expect(result).toMatchObject([]);
+      expect(result).toMatchObject(products);
+    });
+
+    test("should throw error with product does not exist", async () => {
+      const service = new CatalogService(repository);
+      jest
+        .spyOn(repository, "find")
+        .mockImplementation(() =>
+          Promise.reject(new Error("product does not exists"))
+        );
+
+      expect(service.getProducts(0, 0)).rejects.toThrow(
+        "product does not exists"
+      );
+    });
+  });
+
+  describe("getProduct", () => {
+    test("should get product by id", async () => {
+      const service = new CatalogService(repository);
+      const product = productFactory.build();
+
+      jest
+        .spyOn(repository, "findOne")
+        .mockImplementation(() => Promise.resolve(product));
+
+      const result = await service.getProduct(product.id);
+      expect(result).toMatchObject(product);
     });
   });
 });

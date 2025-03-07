@@ -19,6 +19,6 @@ export class MockCatalogRepository implements ICatalogRepository {
     return Promise.resolve([]);
   }
   findOne(id: any): Promise<Product> {
-    throw new Error("Method not implemented.");
+    return Promise.resolve({} as Product);
   }
 }
