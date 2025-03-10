@@ -29,4 +29,11 @@ export class CatalogService {
     const products = await this._repository.find(limit, offset);
     return products;
   }
+
+  async deleteProduct(id: number) {
+    const response = await this._repository.delete(id);
+    // delete record from Elastic search
+    return response;
+  }
+
 }

@@ -142,8 +142,22 @@ describe("catalogService", () => {
         .spyOn(repository, "findOne")
         .mockImplementation(() => Promise.resolve(product));
 
-      const result = await service.getProduct(product.id);
+      const result = await service.getProduct(product.id!);
       expect(result).toMatchObject(product);
+    });
+  });
+  describe("deleteProduct", () => {
+    test("should delete product by id", async () => {
+      const service = new CatalogService(repository);
+      const product = productFactory.build();
+      jest
+        .spyOn(repository, "delete")
+        .mockImplementationOnce(() => Promise.resolve({ id: product.id }));
+
+      const result = await service.deleteProduct(product.id!);
+      expect(result).toMatchObject({
+        id: product.id,
+      });
     });
   });
 });
