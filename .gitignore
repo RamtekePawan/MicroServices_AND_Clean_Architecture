@@ -2,7 +2,7 @@ catalog_service/.env
 catalog_service/node_modules
 catalog_service/dist
 catalog_service/coverage
-
+catalog_service/coverage/Icov-report/
 
 order_service/node_modules
 order_service/.env
